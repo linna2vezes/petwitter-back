@@ -6,13 +6,15 @@ import {
 } from "../helpers/utils.js";
 
 export const signup = async (req, reply) => {
-  const { email, password: pass } = req.body;
+  const { name, username, email, password: pass } = req.body;
 
   try {
     const password = await hashPassword(pass);
 
     const { password: hashedPassword, ...user } = await prisma.user.create({
       data: {
+        name,
+        username,
         email,
         password,
       },
@@ -21,7 +23,7 @@ export const signup = async (req, reply) => {
     reply.send(user);
   } catch (error) {
     console.log(error);
-    reply.status(400).send({ error: `User already exists!` });
+    reply.status(400).send({ error: `Usuário já existe!` });
   }
 };
 
@@ -31,11 +33,11 @@ export const login = async (req, reply) => {
     let user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
-      return reply.status(401).send({ error: "Invalid email or password" });
+      return reply.status(401).send({ error: "Email ou senha inválida" });
     }
 
     if (!(await comparePassword(password, user.password))) {
-      return reply.status(401).send({ error: "Invalid email or password" });
+      return reply.status(401).send({ error: "Email ou senha inválida" });
     }
 
     let { password: pass, ...data } = user;
