@@ -7,9 +7,11 @@
 
 ## Utilização
 
+
 ### Instalando as dependências
 
-`yarn` ou `npm install`
+Este projeto foi jeito utilizando o npm, para instalar suas dependências utilize o `npm install`. 
+Se sua preferência for usar o yarn, utilize  `yarn` .
 
 ### Conectando ao seu banco de dados
 
@@ -17,8 +19,8 @@ Crie um novo arquivo chamado .env e copie o conteúdo do arquivo .env-example mo
 
 ### Rodando a aplicação
 
-Antes de rodar a aplicação, certifique-se que o seu banco de dados está com as ultimas atualizações do prisma.schema. Para garantir que estejam, rode `yarn prisma:push`.
-Após certificar que o banco reflete seu prisma.schema, utilize o comando `yarn dev` para rodar a aplicação localmente.
+Antes de rodar a aplicação, certifique-se que o seu banco de dados está com as ultimas atualizações do prisma.schema. Para garantir que estejam, rode `yarn prisma:push` ou `npx prisma db push`.
+Após certificar que o banco reflete seu prisma.schema, utilize o comando `npm run dev` / `yarn dev` para rodar a aplicação localmente.
 
 ### Scripts
 

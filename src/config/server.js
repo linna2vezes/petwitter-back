@@ -1,19 +1,32 @@
-import fastify from "fastify";
+import Fastify from "fastify";
 import helmet from "fastify-helmet";
 import cors from "fastify-cors";
 
 import routes from "../routes/routes.js";
 
-const app = fastify({
+import multer from "fastify-multer";
+import fastifyStatic from "fastify-static";
+import path from "path";
+
+const fastify = Fastify({
   logger: true,
 });
 
-app.register(cors, {
+const __dirname = path.resolve();
+
+fastify.register(multer.contentParser);
+
+fastify.register(fastifyStatic, {
+  root: path.join(__dirname, "public"),
+  prefix: "/public/",
+});
+
+fastify.register(cors, {
   origin: "*",
   methods: ["GET", "HEAD", "PUT", "POST", "DELETE", "PATCH", "OPTIONS"],
 });
 
-app.register(helmet);
-app.register(routes);
+fastify.register(helmet);
+fastify.register(routes);
 
-export default app;
+export default fastify;
