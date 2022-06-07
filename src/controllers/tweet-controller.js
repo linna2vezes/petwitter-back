@@ -42,7 +42,7 @@ export const deleteTweet = async (request, reply) => {
 export const getUserTweet = async (request, reply) => {
   try {
     const { id } = request.params
-    const getUserTweet = await prisma.tweet.findMany({ where: { user_id: Number(id) } })
+    const getUserTweet = await prisma.tweet.findMany({ where: { user_id: +id } })
     return reply.send(getUserTweet).status(200);
   } catch (error) {
     console.error("users", error);
