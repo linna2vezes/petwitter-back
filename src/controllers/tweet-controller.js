@@ -18,9 +18,13 @@ export const createTweet = async (request, reply) => {
 };
 
 export const getAllTweets = async (request, reply) => {
+  const {take, skip} = request.query;
+  const data = {orderBy: { id: 'desc'}};
+  if (take) data.take = Number(take);
+  if (skip) data.skip = Number(skip);
   try {
-    const getAllTweets = await prisma.tweet.findMany()
-    return reply.send(getAllTweets).status(200);
+    const tweet = await prisma.tweet.findMany(data)
+    reply.send(tweet).status(200);
   } catch (error) {
     console.error("user", error);
     reply.status(500).send("Não possível listar todos os tweets");
@@ -31,7 +35,10 @@ export const deleteTweet = async (request, reply) => {
     try {
       const { id } = request.params
       console.log(id)
-      const deleteTweet = await prisma.tweet.delete({ where: { id: +id } })
+      const deleteTweet = await prisma.tweet.delete({ 
+        where: { id: +id },
+        
+       })
       return reply.send(deleteTweet).status(200);
     } catch (error) {
       console.error("user", error);
@@ -41,8 +48,12 @@ export const deleteTweet = async (request, reply) => {
 
 export const getUserTweet = async (request, reply) => {
   try {
+    
     const { id } = request.params
-    const getUserTweet = await prisma.tweet.findMany({ where: { user_id: +id } })
+    const getUserTweet = await prisma.tweet.findMany({ 
+      where: { user_id: +id },
+      orderBy: { id: 'desc' },
+     })
     return reply.send(getUserTweet).status(200);
   } catch (error) {
     console.error("users", error);
